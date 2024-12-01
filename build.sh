@@ -42,8 +42,17 @@ echo "Running build..."
 cmake --build . || { echo "Build failed"; exit 1; }
 echo "Build completed successfully"
 
+if [ -f "compile_commands.json" ]; then
+    echo "Copying compile_commands.json to the project root..."
+    cp compile_commands.json ..
+    echo "compile_commands.json copied successfully."
+else
+    echo "compile_commands.json not found. Skipping copy."
+fi
+
 if [ "$run_after_build" = true ]; then
-    ./solution || { echo "Failed to run"; exit 1; }
+    ./solution_part1 || { echo "Failed to run"; exit 1; }
+    ./solution_part2 || { echo "Failed to run"; exit 1; }
 fi
 
 cd ..
